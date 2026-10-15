@@ -1,0 +1,156 @@
+---
+import Avatar from './Avatar.astro';
+import { profile, vitals } from '../data/profile';
+import { withBase } from '../lib/url';
+
+// One heartbeat, repeated across the trace.
+const beat = (x: number) => `H${x} l6 -6 l6 6 h10 l5 -36 l7 62 l6 -34 h12 q8 -14 16 0`;
+const trace = `M0 60 ${[60, 260, 460, 660, 860].map(beat).join(' ')} H1000`;
+---
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="status mono"><span class="pulse"></span>{profile.status}</p>
+      <h1>
+        <span class="hi">Hi, I'm</span>
+        <span class="name">{profile.name}</span>
+      </h1>
+      <p class="role mono">
+        <span class="muted">&gt;</span>
+        <span class="typed" data-roles={JSON.stringify(profile.roles)}>{profile.roles[0]}</span><span class="caret">▍</span>
+      </p>
+      <p class="tagline">{profile.tagline}</p>
+      <div class="cta">
+        <a class="btn primary" href={withBase('/#projects')}>🚀 See my work</a>
+        <a class="btn" href={withBase('/blog')}>📝 Read my notes</a>
+        {profile.resumeUrl && <a class="btn" href={withBase(profile.resumeUrl)} download>📄 Resume</a>}
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="monitor panel">
+        <div class="monitor-top mono">
+          <span>CH 00 · LIVE</span>
+          <span class="rec">● REC</span>
+        </div>
+        <Avatar size={260} class="hero-avatar" />
+        <div class="speech mono">Hey there! 👋</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ecg-wrap" aria-hidden="true">
+    <svg viewBox="0 0 1000 120" preserveAspectRatio="none" class="ecg">
+      <path d={trace} class="ecg-base" />
+      <path d={trace} class="ecg-live" pathLength="1000" />
+    </svg>
+  </div>
+
+  <div class="container">
+    <ul class="vitals">
+      {vitals.map((v) => (
+        <li class={`vital panel c-${v.color}`}>
+          <span class="v-label mono">{v.label}</span>
+          <span class="v-value">{v.value}<small>{v.unit}</small></span>
+          <svg viewBox="0 0 100 24" class="v-spark" aria-hidden="true"><path d="M0 16 L12 14 L22 18 L34 10 L46 13 L58 6 L70 12 L82 4 L100 8" /></svg>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  // Typewriter cycling through roles
+  const el = document.querySelector<HTMLElement>('.typed');
+  if (el && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const roles: string[] = JSON.parse(el.dataset.roles || '[]');
+    let r = 0, i = roles[0].length, deleting = true;
+    const tick = () => {
+      const word = roles[r];
+      el.textContent = word.slice(0, i);
+      if (deleting) {
+        i--;
+        if (i < 0) { deleting = false; r = (r + 1) % roles.length; i = 0; }
+      } else {
+        i++;
+        if (i > roles[r].length) { deleting = true; setTimeout(tick, 1600); return; }
+      }
+      setTimeout(tick, deleting ? 45 : 85);
+    };
+    setTimeout(tick, 2200);
+  }
+</script>
+
+<style>
+  .hero { padding: 56px 0 24px; position: relative; overflow: hidden; }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: center;
+  }
+  .status {
+    display: inline-flex; align-items: center; gap: 10px; font-size: 13px;
+    padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel);
+    margin: 0 0 22px;
+  }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 var(--green); animation: ping 1.8s infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--green) 60%, transparent); } 100% { box-shadow: 0 0 0 12px transparent; } }
+
+  h1 { margin: 0; line-height: 1.02; letter-spacing: -0.035em; }
+  .hi { display: block; font-size: clamp(20px, 2.6vw, 26px); font-weight: 500; color: var(--muted); letter-spacing: 0; margin-bottom: 8px; }
+  .name {
+    display: block; font-size: clamp(40px, 6.6vw, 76px); font-weight: 700;
+    background: linear-gradient(100deg, var(--text) 30%, var(--green) 70%, var(--cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .role { font-size: clamp(18px, 2.4vw, 24px); color: var(--green); margin: 18px 0 10px; min-height: 1.5em; }
+  .caret { animation: blink 1s steps(1) infinite; margin-left: 2px; }
+  .tagline { font-size: 19px; max-width: 560px; color: var(--muted); margin: 0 0 28px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .hero-art { display: grid; place-items: center; }
+  .monitor { position: relative; padding: 18px 22px 26px; width: min(360px, 100%); }
+  .monitor::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent 0 3px, color-mix(in srgb, var(--green) 4%, transparent) 3px 4px);
+  }
+  .monitor-top { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .rec { color: var(--pink); animation: blink 1.6s infinite; }
+  .monitor :global(.hero-avatar) { margin: 0 auto; width: 100%; max-width: 260px; }
+  .speech {
+    position: absolute; top: 46px; right: -14px; font-size: 13px;
+    background: var(--text); color: var(--bg); padding: 8px 12px; border-radius: 12px 12px 4px 12px;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float { 50% { transform: translateY(-6px); } }
+
+  .ecg-wrap { margin: 40px 0 26px; height: 120px; }
+  .ecg { width: 100%; height: 100%; display: block; }
+  .ecg path { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+  .ecg-base { stroke: var(--green); stroke-width: 1.5; opacity: .14; }
+  .ecg-live {
+    stroke: var(--green); stroke-width: 2.5;
+    stroke-dasharray: 220 780; stroke-dashoffset: 1000;
+    filter: drop-shadow(0 0 6px var(--green));
+    animation: sweep 4.2s linear infinite;
+  }
+  @keyframes sweep { to { stroke-dashoffset: 0; } }
+
+  .vitals {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .vital { padding: 14px 16px 10px; position: relative; overflow: hidden; }
+  .v-label { font-size: 11px; color: var(--c); letter-spacing: .1em; }
+  .v-value { display: block; font: 700 34px/1.1 var(--mono); color: var(--c); margin-top: 4px; }
+  .v-value small { font-size: 13px; font-weight: 400; margin-left: 4px; color: var(--muted); }
+  .v-spark { width: 100%; height: 24px; margin-top: 4px; }
+  .v-spark path { fill: none; stroke: var(--c); stroke-width: 1.6; opacity: .7; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+    .hero-art { order: -1; }
+    .monitor { width: min(300px, 100%); }
+    .speech { right: 0; }
+    .vitals { grid-template-columns: repeat(2, 1fr); }
+    .ecg-wrap { height: 80px; margin: 28px 0 18px; }
+  }
+</style>

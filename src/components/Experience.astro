@@ -1,0 +1,88 @@
+---
+import { experience } from '../data/profile';
+const colors = ['green', 'cyan', 'amber', 'pink'];
+---
+<section class="section c-cyan" id="experience">
+  <div class="container">
+    <div class="channel"><span>CH 02 · Experience</span><span class="line"></span></div>
+    <h2 class="section-title reveal">Where I've worked</h2>
+    <p class="section-sub reveal">About four years across research labs, healthcare, and large-scale commerce. Click a role to open it.</p>
+
+    <ol class="timeline">
+      {experience.map((job, i) => (
+        <li class={`reveal c-${colors[i % colors.length]}`}>
+          <span class="node" aria-hidden="true">{job.emoji}</span>
+          <details class="panel job" open={i === 0}>
+            <summary>
+              <div class="job-head">
+                <span class="period mono">{job.period}</span>
+                <h3>{job.role}</h3>
+                <p class="company">{job.company} <span class="muted">· {job.place}</span></p>
+                <p class="summary muted">{job.summary}</p>
+              </div>
+              <span class="toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="job-body">
+              <ul>
+                {job.points.map((p) => <li>{p}</li>)}
+              </ul>
+              <div class="tags">
+                {job.tech.map((t) => <span class="chip">{t}</span>)}
+              </div>
+            </div>
+          </details>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 36px; position: relative; }
+  .timeline::before {
+    content: ''; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px;
+    background: linear-gradient(var(--green), var(--cyan), var(--amber), var(--pink));
+    opacity: .5;
+  }
+  .timeline > li { position: relative; margin-bottom: 18px; }
+  .node {
+    position: absolute; left: -38px; top: 18px; width: 34px; height: 34px;
+    display: grid; place-items: center; font-size: 17px;
+    background: var(--panel); border: 2px solid var(--c); border-radius: 50%;
+    box-shadow: 0 0 14px color-mix(in srgb, var(--c) 40%, transparent);
+  }
+
+  .job { overflow: hidden; transition: border-color .2s ease; }
+  .job:hover, .job[open] { border-color: var(--c); }
+  summary {
+    list-style: none; cursor: pointer; display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px 22px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .job-head { flex: 1; }
+  .period { font-size: 12.5px; color: var(--c); }
+  h3 { margin: 4px 0 2px; font-size: 20px; line-height: 1.3; }
+  .company { margin: 0; font-weight: 500; }
+  .summary { margin: 6px 0 0; font-size: 15px; }
+  .toggle {
+    flex: none; width: 32px; height: 32px; display: grid; place-items: center;
+    border: 1px solid var(--line); border-radius: 50%; font: 400 20px var(--mono); color: var(--c);
+    transition: transform .25s ease;
+  }
+  .job[open] .toggle { transform: rotate(45deg); }
+
+  .job-body { padding: 0 22px 22px; border-top: 1px dashed var(--line); animation: open .35s ease; }
+  .job-body ul { margin: 16px 0; padding-left: 20px; }
+  .job-body li { margin-bottom: 10px; font-size: 16px; }
+  .job-body li::marker { color: var(--c); }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  @keyframes open { from { opacity: 0; transform: translateY(-6px); } }
+
+  @media (max-width: 520px) {
+    .timeline { padding-left: 28px; }
+    .timeline::before { left: 11px; }
+    .node { left: -30px; width: 28px; height: 28px; font-size: 14px; }
+    summary { padding: 16px; }
+    .job-body { padding: 0 16px 16px; }
+  }
+</style>

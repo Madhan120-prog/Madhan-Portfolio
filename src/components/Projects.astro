@@ -1,0 +1,123 @@
+---
+import ProjectArt from './ProjectArt.astro';
+import { projects } from '../data/profile';
+---
+<section class="section c-amber" id="projects">
+  <div class="container">
+    <div class="channel"><span>CH 03 · Projects</span><span class="line"></span></div>
+    <h2 class="section-title reveal">Things I've built</h2>
+    <p class="section-sub reveal">AI assistants, research tools, and apps. Open any card for the full story.</p>
+
+    <div class="grid">
+      {projects.map((p, i) => (
+        <article class={`card panel reveal c-${p.accent} ${i === 0 ? 'featured' : ''}`}>
+          <button class="card-hit" data-open-dialog={`proj-${p.slug}`} aria-label={`Open details for ${p.title}`}></button>
+          <div class="cover">
+            <ProjectArt slug={p.slug} />
+            <span class="badge" aria-hidden="true">{p.emoji}</span>
+            {p.status && <span class="status mono">{p.status}</span>}
+          </div>
+          <div class="body">
+            <p class="kicker mono">{p.kicker}</p>
+            <h3>{p.title}</h3>
+            <p class="blurb muted">{p.blurb}</p>
+            <div class="tags">
+              {p.tech.slice(0, 4).map((t) => <span class="chip">{t}</span>)}
+              {p.tech.length > 4 && <span class="chip muted">+{p.tech.length - 4}</span>}
+            </div>
+            <div class="foot mono">
+              <span class="open">Open ↗</span>
+              {p.repo && <a href={p.repo} target="_blank" rel="noopener" class="repo">GitHub</a>}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  {projects.map((p) => (
+    <dialog class={`modal c-${p.accent}`} id={`proj-${p.slug}`} aria-labelledby={`proj-${p.slug}-t`}>
+      <div class="modal-box panel">
+        <div class="modal-cover"><ProjectArt slug={p.slug} /></div>
+        <button class="close" data-close aria-label="Close">✕</button>
+        <div class="modal-body">
+          <p class="kicker mono">{p.emoji} {p.kicker}</p>
+          <h3 id={`proj-${p.slug}-t`}>{p.title}</h3>
+          <p>{p.blurb}</p>
+          <ul>{p.details.map((d) => <li>{d}</li>)}</ul>
+          <div class="tags">{p.tech.map((t) => <span class="chip">{t}</span>)}</div>
+          <div class="actions">
+            {p.repo && <a class="btn primary" href={p.repo} target="_blank" rel="noopener">View on GitHub ↗</a>}
+            {p.demo && <a class="btn" href={p.demo} target="_blank" rel="noopener">Live demo ↗</a>}
+          </div>
+        </div>
+      </div>
+    </dialog>
+  ))}
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .card {
+    position: relative; overflow: hidden; display: flex; flex-direction: column;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .card:hover { transform: translateY(-6px); border-color: var(--c); box-shadow: 0 18px 40px color-mix(in srgb, var(--c) 18%, transparent); }
+  .card.featured { grid-column: span 2; }
+  .card-hit { position: absolute; inset: 0; z-index: 2; background: none; border: none; cursor: pointer; border-radius: inherit; }
+  .card-hit:focus-visible { outline-offset: -3px; }
+
+  .cover { position: relative; aspect-ratio: 2 / 1; border-bottom: 1px solid var(--line); overflow: hidden; }
+  .featured .cover { aspect-ratio: 2.6 / 1; }
+  .cover :global(svg) { transition: transform .5s ease; }
+  .card:hover .cover :global(svg) { transform: scale(1.05); }
+  .badge {
+    position: absolute; left: 14px; bottom: -18px; width: 44px; height: 44px;
+    display: grid; place-items: center; font-size: 22px; border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--line); box-shadow: var(--shadow);
+  }
+  .status {
+    position: absolute; top: 12px; right: 12px; font-size: 11px; padding: 3px 9px; border-radius: 999px;
+    background: var(--c); color: var(--bg);
+  }
+
+  .body { padding: 28px 20px 18px; display: flex; flex-direction: column; flex: 1; }
+  .kicker { font-size: 12px; color: var(--c); margin: 0 0 6px; }
+  h3 { margin: 0 0 8px; font-size: 20px; line-height: 1.25; }
+  .blurb { font-size: 15px; margin: 0 0 14px; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .foot { display: flex; justify-content: space-between; margin-top: 16px; font-size: 13px; }
+  .open { color: var(--c); }
+  .repo { position: relative; z-index: 3; color: var(--muted); text-decoration: none; }
+  .repo:hover { color: var(--text); }
+
+  .modal {
+    width: min(720px, calc(100% - 32px)); max-height: calc(100dvh - 48px);
+    padding: 0; border: none; background: transparent; color: var(--text);
+  }
+  .modal[open] { animation: pop .3s ease; }
+  .modal::backdrop { background: rgba(0, 0, 0, .6); backdrop-filter: blur(4px); }
+  .modal-box { position: relative; overflow: hidden; border-color: var(--c); }
+  .modal-cover { aspect-ratio: 2 / 1; max-height: 36vh; width: 100%; border-bottom: 1px solid var(--line); }
+  .close {
+    position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--panel); color: var(--text); cursor: pointer; font-size: 14px;
+  }
+  .modal-body { padding: 24px 26px 26px; }
+  .modal-body h3 { font-size: 26px; }
+  .modal-body ul { padding-left: 20px; }
+  .modal-body li { margin-bottom: 8px; }
+  .modal-body li::marker { color: var(--c); }
+  .actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  @keyframes pop { from { opacity: 0; transform: translateY(16px) scale(.98); } }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .card.featured { grid-column: auto; }
+    .featured .cover { aspect-ratio: 2 / 1; }
+    .modal-body { padding: 20px; }
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+// Illustrated placeholder avatar. Swap for a photo/bitmoji later by replacing this SVG
+// with <img src={withBase('/images/avatar.png')} ... />.
+interface Props { size?: number; class?: string }
+const { size = 240, class: className = '' } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+---
+<svg
+  class:list={['avatar', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 240 240"
+  role="img"
+  aria-label="Illustrated avatar of Madhan waving"
+>
+  <defs>
+    <radialGradient id={`av-bg-${uid}`} cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="var(--panel-2)" />
+      <stop offset="100%" stop-color="var(--bg-2)" />
+    </radialGradient>
+    <clipPath id={`av-clip-${uid}`}><circle cx="120" cy="120" r="112" /></clipPath>
+  </defs>
+
+  <circle cx="120" cy="120" r="116" fill="none" stroke="var(--green)" stroke-width="2" stroke-dasharray="4 7" class="av-ring" />
+  <circle cx="120" cy="120" r="112" fill={`url(#av-bg-${uid})`} />
+
+  <g clip-path={`url(#av-clip-${uid})`}>
+    <!-- tiny ECG trace in the background -->
+    <path d="M10 70 H70 l8 -14 l8 26 l6 -12 H230" fill="none" stroke="var(--green)" stroke-width="2" opacity=".25" />
+
+    <!-- lab coat -->
+    <path d="M40 250 Q46 178 120 168 Q194 178 200 250 Z" fill="#eef3f2" stroke="#c9d6d3" stroke-width="2" />
+    <path d="M100 172 L120 210 L140 172 Z" fill="#139c86" />
+    <path d="M100 172 L112 232 M140 172 L128 232" stroke="#c9d6d3" stroke-width="2" fill="none" />
+    <!-- pocket + badge -->
+    <rect x="62" y="200" width="30" height="22" rx="4" fill="none" stroke="#c9d6d3" stroke-width="2" />
+    <path d="M65 211 h7 l3 -6 l4 12 l3 -6 h7" fill="none" stroke="#0a9d68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <rect x="150" y="198" width="26" height="16" rx="3" fill="#0a85b0" />
+    <text x="163" y="210" font-family="var(--mono)" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">MK</text>
+
+    <!-- neck -->
+    <path d="M106 140 h28 v34 q-14 10 -28 0 Z" fill="#a8693f" />
+
+    <!-- head -->
+    <circle cx="79" cy="106" r="9" fill="#b9784f" />
+    <circle cx="161" cy="106" r="9" fill="#b9784f" />
+    <ellipse cx="120" cy="104" rx="41" ry="47" fill="#b9784f" />
+
+    <!-- hair -->
+    <path d="M78 102 Q70 50 118 46 Q170 44 163 100 Q158 78 140 72 Q128 82 104 76 Q88 80 82 98 Z" fill="#1d1612" />
+    <path d="M104 50 q8 -10 22 -6" stroke="#1d1612" stroke-width="6" stroke-linecap="round" fill="none" />
+
+    <!-- brows -->
+    <path d="M96 94 q8 -5 16 0 M128 94 q8 -5 16 0" stroke="#1d1612" stroke-width="3.5" stroke-linecap="round" fill="none" />
+
+    <!-- eyes -->
+    <g class="av-eyes">
+      <ellipse cx="104" cy="106" rx="4" ry="5" fill="#1d1612" />
+      <ellipse cx="136" cy="106" rx="4" ry="5" fill="#1d1612" />
+    </g>
+
+    <!-- cheeks + smile -->
+    <circle cx="95" cy="122" r="6" fill="#e0607e" opacity=".22" />
+    <circle cx="145" cy="122" r="6" fill="#e0607e" opacity=".22" />
+    <path d="M106 126 Q120 140 134 126" stroke="#5a2a18" stroke-width="3.5" stroke-linecap="round" fill="none" />
+
+    <!-- waving arm -->
+    <g class="av-arm">
+      <path d="M176 196 L206 142" stroke="#b7c6c2" stroke-width="24" stroke-linecap="round" />
+      <path d="M176 196 L206 142" stroke="#eef3f2" stroke-width="20" stroke-linecap="round" />
+      <circle cx="209" cy="132" r="12" fill="#b9784f" />
+      <path d="M203 122 v-8 M209 120 v-10 M215 122 v-8" stroke="#b9784f" stroke-width="5" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>
+
+<style>
+  .avatar { display: block; height: auto; overflow: visible; }
+  .av-ring { transform-origin: 120px 120px; animation: spin 40s linear infinite; }
+  .av-arm { transform-origin: 176px 196px; animation: wave 2.6s ease-in-out infinite; }
+  .av-eyes { transform-origin: 120px 106px; animation: blink-eyes 5s infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes wave {
+    0%, 60%, 100% { transform: rotate(0deg); }
+    10%, 30% { transform: rotate(-14deg); }
+    20%, 40% { transform: rotate(8deg); }
+  }
+  @keyframes blink-eyes { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
+</style>

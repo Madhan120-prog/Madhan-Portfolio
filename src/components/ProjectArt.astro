@@ -1,0 +1,97 @@
+---
+// Generated cover illustrations for project cards. Replace with real screenshots later by
+// adding an `image` to the project and rendering <img> instead.
+interface Props { slug: string }
+const { slug } = Astro.props;
+---
+<svg class="art" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect width="400" height="200" fill="color-mix(in srgb, var(--c) 9%, var(--panel-2))" />
+  <g stroke="var(--c)" fill="none" opacity=".12">
+    {Array.from({ length: 13 }, (_, i) => <path d={`M${i * 32} 0 V200`} />)}
+    {Array.from({ length: 7 }, (_, i) => <path d={`M0 ${i * 32} H400`} />)}
+  </g>
+
+  {slug === 'patient-records' && (
+    <g>
+      {[40, 80, 120, 160].map((y, i) => (
+        <g>
+          <circle cx="48" cy={y} r="7" fill="var(--c)" opacity={0.4 + i * 0.15} />
+          <rect x="66" y={y - 6} width={120 + ((i * 47) % 90)} height="12" rx="6" fill="var(--c)" opacity=".25" />
+        </g>
+      ))}
+      <path d="M220 110 H260 l8 -30 l10 60 l9 -40 l6 10 H380" stroke="var(--c)" stroke-width="3" fill="none" stroke-linejoin="round" class="art-pulse" />
+      <rect x="290" y="30" width="80" height="40" rx="10" fill="var(--panel)" stroke="var(--c)" />
+      <text x="330" y="55" font-size="13" text-anchor="middle" fill="var(--c)" font-family="var(--mono)">RAG ✓</text>
+    </g>
+  )}
+
+  {slug === 'tigermind' && (
+    <g>
+      {[[90, 60], [90, 140], [310, 40], [330, 100], [310, 160]].map(([x, y]) => (
+        <path d={`M200 100 L${x} ${y}`} stroke="var(--c)" stroke-width="2" opacity=".5" stroke-dasharray="5 5" class="art-flow" />
+      ))}
+      <circle cx="200" cy="100" r="30" fill="var(--c)" opacity=".9" />
+      <text x="200" y="107" font-size="22" text-anchor="middle">🐯</text>
+      {[[90, 60, '📚'], [90, 140, '🗓️'], [310, 40, '💰'], [330, 100, '🏠'], [310, 160, '🎓']].map(([x, y, e]) => (
+        <g>
+          <circle cx={x} cy={y} r="20" fill="var(--panel)" stroke="var(--c)" stroke-width="2" />
+          <text x={x} y={Number(y) + 6} font-size="16" text-anchor="middle">{e}</text>
+        </g>
+      ))}
+    </g>
+  )}
+
+  {slug === 'via-portal' && (
+    <g>
+      <path d="M30 40 H370" stroke="var(--c)" stroke-width="2" opacity=".6" />
+      {Array.from({ length: 22 }, (_, i) => <path d={`M${30 + i * 16} 36 v8`} stroke="var(--c)" opacity=".6" />)}
+      {[70, 110, 150].map((y, row) => (
+        <g>
+          {Array.from({ length: 40 }, (_, i) => {
+            const h = Math.abs(Math.sin((i + row * 7) * 0.7) * 22) + (i % (5 + row) === 0 ? 10 : 2);
+            return <rect x={30 + i * 8.5} y={y + 14 - h} width="5" height={h} rx="1" fill="var(--c)" opacity={0.3 + row * 0.2} />;
+          })}
+        </g>
+      ))}
+      <rect x="196" y="50" width="40" height="130" fill="var(--c)" opacity=".12" stroke="var(--c)" stroke-dasharray="4 4" />
+    </g>
+  )}
+
+  {slug === 'autocab' && (
+    <g>
+      <rect x="60" y="40" width="200" height="130" rx="10" fill="var(--panel)" stroke="var(--c)" stroke-width="2" />
+      <path d="M60 62 H260" stroke="var(--c)" opacity=".5" />
+      {[76, 90, 104].map((x) => <circle cx={x} cy="51" r="4" fill="var(--c)" opacity=".6" />)}
+      {[86, 106, 126, 146].map((y, i) => <rect x="80" y={y} width={140 - i * 22} height="8" rx="4" fill="var(--c)" opacity=".25" />)}
+      <rect x="240" y="120" width="110" height="44" rx="22" fill="var(--panel)" stroke="var(--c)" stroke-width="2" />
+      <circle cx="264" cy="142" r="8" fill="#ff4d6d" class="art-blink" />
+      <text x="282" y="147" font-size="13" fill="var(--c)" font-family="var(--mono)">REC 00:42</text>
+    </g>
+  )}
+
+  {slug === 'qrf' && (
+    <g>
+      <circle cx="200" cy="100" r="70" fill="none" stroke="var(--c)" opacity=".3" class="art-ripple" />
+      <circle cx="200" cy="100" r="45" fill="none" stroke="var(--c)" opacity=".5" />
+      <circle cx="200" cy="100" r="14" fill="var(--c)" />
+      {[[120, 60], [290, 70], [260, 160], [130, 150], [320, 120]].map(([x, y]) => (
+        <g>
+          <path d={`M200 100 L${x} ${y}`} stroke="var(--c)" stroke-dasharray="3 5" opacity=".6" />
+          <circle cx={x} cy={y} r="9" fill="var(--panel)" stroke="var(--c)" stroke-width="2" />
+        </g>
+      ))}
+      <text x="200" y="105" font-size="12" text-anchor="middle">🎖️</text>
+    </g>
+  )}
+</svg>
+
+<style>
+  .art { display: block; width: 100%; height: 100%; }
+  .art-pulse { stroke-dasharray: 260; stroke-dashoffset: 260; animation: art-draw 3s ease-in-out infinite; }
+  .art-flow { animation: art-dash 1.2s linear infinite; }
+  .art-blink { animation: blink 1.2s infinite; }
+  .art-ripple { transform-origin: 200px 100px; animation: art-rip 2.6s ease-out infinite; }
+  @keyframes art-draw { 60%, 100% { stroke-dashoffset: 0; } }
+  @keyframes art-dash { to { stroke-dashoffset: -20; } }
+  @keyframes art-rip { from { transform: scale(.6); opacity: .6; } to { transform: scale(1.3); opacity: 0; } }
+</style>

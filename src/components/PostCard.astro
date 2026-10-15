@@ -1,0 +1,36 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase, formatDate } from '../lib/url';
+interface Props { post: CollectionEntry<'blog'> }
+const { post } = Astro.props;
+---
+<a class="post panel reveal" href={withBase(`/blog/${post.id}`)}>
+  <span class="p-emoji" aria-hidden="true">{post.data.emoji}</span>
+  <div class="p-body">
+    <time class="mono muted" datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+    <h3>{post.data.title}</h3>
+    <p class="muted">{post.data.description}</p>
+    <div class="tags">{post.data.tags.map((t) => <span class="chip">#{t}</span>)}</div>
+  </div>
+  <span class="arrow" aria-hidden="true">→</span>
+</a>
+
+<style>
+  .post {
+    display: flex; gap: 18px; align-items: flex-start; padding: 20px 22px; text-decoration: none;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .post:hover { transform: translateX(6px); border-color: var(--violet); }
+  .p-emoji {
+    flex: none; width: 52px; height: 52px; display: grid; place-items: center; font-size: 26px;
+    border-radius: 14px; background: color-mix(in srgb, var(--violet) 14%, var(--panel-2));
+  }
+  .p-body { flex: 1; min-width: 0; }
+  time { font-size: 12.5px; }
+  h3 { margin: 2px 0 4px; font-size: 19px; line-height: 1.3; }
+  p { margin: 0 0 10px; font-size: 15px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .arrow { font-size: 20px; color: var(--violet); transition: transform .2s ease; align-self: center; }
+  .post:hover .arrow { transform: translateX(4px); }
+  @media (max-width: 520px) { .arrow { display: none; } .p-emoji { width: 44px; height: 44px; font-size: 22px; } }
+</style>

@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import PostCard from './PostCard.astro';
+import { withBase } from '../lib/url';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+<section class="section c-violet" id="notes">
+  <div class="container">
+    <div class="channel"><span>CH 05 · Notes</span><span class="line"></span></div>
+    <div class="head">
+      <div>
+        <h2 class="section-title reveal">From my notebook</h2>
+        <p class="section-sub reveal">Everyday thoughts, weekly learnings, and build logs.</p>
+      </div>
+      <a class="btn reveal" href={withBase('/blog')}>All notes →</a>
+    </div>
+    <div class="list">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .head .section-sub { margin-bottom: 20px; }
+  .head .btn { margin-bottom: 20px; }
+  .list { display: grid; gap: 14px; }
+</style>

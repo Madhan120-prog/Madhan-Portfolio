@@ -1,0 +1,93 @@
+---
+import { about, education, profile } from '../data/profile';
+---
+<section class="section c-green" id="about">
+  <div class="container">
+    <div class="channel"><span>CH 01 · About</span><span class="line"></span></div>
+    <h2 class="section-title reveal">A bit about me</h2>
+
+    <div class="bento">
+      <article class="panel intro reveal">
+        {about.intro.map((p) => <p>{p}</p>)}
+        <p class="loc mono muted">📍 {profile.location}</p>
+      </article>
+
+      <article class="panel now reveal c-amber">
+        <h3 class="mono">⏳ Right now</h3>
+        <ul>
+          {about.now.map((n) => <li>{n}</li>)}
+        </ul>
+      </article>
+
+      {about.facts.map((f, i) => (
+        <article class={`panel fact reveal c-${['green', 'cyan', 'pink', 'amber'][i % 4]}`}>
+          <span class="emoji" aria-hidden="true">{f.emoji}</span>
+          <h3>{f.label}</h3>
+          <p class="muted">{f.detail}</p>
+        </article>
+      ))}
+
+      <article class="panel edu reveal c-cyan">
+        <h3 class="mono">🎓 Education</h3>
+        {education.map((e) => (
+          <div class="edu-row">
+            <span class="emoji-sm" aria-hidden="true">{e.emoji}</span>
+            <div>
+              <strong>{e.degree}</strong>
+              <div class="muted">{e.school}</div>
+              <div class="mono muted small">{e.detail}</div>
+            </div>
+          </div>
+        ))}
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      'intro intro intro now'
+      'f1 f2 f3 f4'
+      'edu edu edu edu';
+  }
+  .bento > .panel { padding: 24px; transition: transform .2s ease, border-color .2s ease; }
+  .bento > .panel:hover { transform: translateY(-4px); border-color: var(--c, var(--green)); }
+  .intro { grid-area: intro; font-size: 17.5px; }
+  .intro p { margin: 0 0 14px; }
+  .intro .loc { margin: 0; font-size: 13px; }
+  .now { grid-area: now; background: linear-gradient(160deg, color-mix(in srgb, var(--amber) 12%, var(--panel)), var(--panel)); }
+  .fact:nth-of-type(3) { grid-area: f1; }
+  .fact:nth-of-type(4) { grid-area: f2; }
+  .fact:nth-of-type(5) { grid-area: f3; }
+  .fact:nth-of-type(6) { grid-area: f4; }
+  .edu { grid-area: edu; display: grid; grid-template-columns: auto 1fr 1fr; gap: 24px; align-items: start; }
+  .edu h3 { white-space: nowrap; }
+
+  h3 { margin: 0 0 10px; font-size: 15px; color: var(--c, var(--text)); }
+  .now ul { margin: 0; padding-left: 18px; }
+  .now li { margin-bottom: 8px; font-size: 15px; }
+  .now li::marker { color: var(--amber); }
+
+  .fact .emoji { font-size: 34px; display: block; margin-bottom: 10px; transition: transform .3s ease; }
+  .fact:hover .emoji { transform: scale(1.2) rotate(-8deg); }
+  .fact h3 { font-family: var(--font); font-size: 17px; color: var(--text); margin-bottom: 4px; }
+  .fact p { margin: 0; font-size: 14px; }
+
+  .edu-row { display: flex; gap: 12px; }
+  .emoji-sm { font-size: 26px; }
+  .small { font-size: 12.5px; }
+
+  @media (max-width: 900px) {
+    .bento {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: 'intro intro' 'now now' 'f1 f2' 'f3 f4' 'edu edu';
+    }
+    .edu { grid-template-columns: 1fr; gap: 16px; }
+  }
+  @media (max-width: 520px) {
+    .bento { grid-template-columns: 1fr; grid-template-areas: 'intro' 'now' 'f1' 'f2' 'f3' 'f4' 'edu'; }
+  }
+</style>
