@@ -1,43 +1,22 @@
-/* ---------- Design tokens ---------- */
+/* ---------- Design tokens (light only) ---------- */
 :root {
-  --bg: #f4f7f6;
-  --bg-2: #e9efed;
+  --bg: #ffffff;
+  --bg-2: #f6f8fa;
   --panel: #ffffff;
-  --panel-2: #f7faf9;
-  --line: #d5dfdc;
-  --text: #0d1716;
-  --muted: #566563;
-  --green: #0a9d68;
-  --cyan: #0a85b0;
-  --amber: #b86e00;
-  --pink: #c8326a;
-  --violet: #6d4fd8;
-  --grid: rgba(10, 157, 104, 0.07);
-  --glow: rgba(10, 157, 104, 0.12);
-  --shadow: 0 1px 2px rgba(13, 23, 22, 0.05), 0 8px 24px rgba(13, 23, 22, 0.06);
-  --radius: 18px;
+  --panel-2: #f6f8fa;
+  --line: #e4e8ee;
+  --text: #0f172a;
+  --muted: #5b6474;
+  --green: #059669;
+  --cyan: #0284c7;
+  --amber: #d97706;
+  --pink: #db2777;
+  --violet: #7c3aed;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.05);
+  --radius: 16px;
   --font: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: light;
-}
-
-:root[data-theme='dark'] {
-  --bg: #060a0c;
-  --bg-2: #0a1114;
-  --panel: #0c1518;
-  --panel-2: #101b1f;
-  --line: #1c2b30;
-  --text: #e6f1ef;
-  --muted: #8aa09c;
-  --green: #2bf0a0;
-  --cyan: #45d6ff;
-  --amber: #ffbe55;
-  --pink: #ff6b9a;
-  --violet: #a48bff;
-  --grid: rgba(43, 240, 160, 0.045);
-  --glow: rgba(43, 240, 160, 0.10);
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.35);
-  color-scheme: dark;
 }
 
 /* ---------- Base ---------- */
@@ -56,17 +35,12 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 32px 32px;
-  background-attachment: fixed;
 }
 
 a { color: inherit; }
 img, svg { max-width: 100%; }
 
-::selection { background: var(--green); color: var(--bg); }
+::selection { background: color-mix(in srgb, var(--green) 20%, white); color: var(--text); }
 
 :focus-visible {
   outline: 2px solid var(--cyan);
@@ -112,8 +86,6 @@ img, svg { max-width: 100%; }
   content: '';
   width: 8px; height: 8px; border-radius: 50%;
   background: currentColor;
-  box-shadow: 0 0 10px currentColor;
-  animation: blink 2.4s ease-in-out infinite;
 }
 .channel .line {
   flex: 1;
@@ -169,7 +141,7 @@ img, svg { max-width: 100%; }
 .btn.primary {
   background: var(--green);
   border-color: var(--green);
-  color: var(--bg);
+  color: #fff;
 }
 .btn.primary:hover { filter: brightness(1.08); }
 

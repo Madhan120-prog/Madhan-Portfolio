@@ -55,9 +55,4 @@ const minutes = Math.max(1, Math.round(words / 220));
   .prose :global(pre) { padding: 18px 20px; border-radius: 14px; border: 1px solid var(--line); overflow-x: auto; font-size: 15px; line-height: 1.6; }
   .prose :global(img) { border-radius: 14px; border: 1px solid var(--line); }
   .prose :global(li::marker) { color: var(--violet); }
-  :global([data-theme='dark']) .prose :global(.astro-code),
-  :global([data-theme='dark']) .prose :global(.astro-code span) {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-  }
 </style>

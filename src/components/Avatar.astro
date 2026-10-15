@@ -15,13 +15,13 @@ const uid = Math.random().toString(36).slice(2, 8);
 >
   <defs>
     <radialGradient id={`av-bg-${uid}`} cx="50%" cy="40%" r="65%">
-      <stop offset="0%" stop-color="var(--panel-2)" />
-      <stop offset="100%" stop-color="var(--bg-2)" />
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e8f5ef" />
     </radialGradient>
     <clipPath id={`av-clip-${uid}`}><circle cx="120" cy="120" r="112" /></clipPath>
   </defs>
 
-  <circle cx="120" cy="120" r="116" fill="none" stroke="var(--green)" stroke-width="2" stroke-dasharray="4 7" class="av-ring" />
+  <circle cx="120" cy="120" r="116" fill="none" stroke="var(--line)" stroke-width="2" />
   <circle cx="120" cy="120" r="112" fill={`url(#av-bg-${uid})`} />
 
   <g clip-path={`url(#av-clip-${uid})`}>
@@ -76,10 +76,8 @@ const uid = Math.random().toString(36).slice(2, 8);
 
 <style>
   .avatar { display: block; height: auto; overflow: visible; }
-  .av-ring { transform-origin: 120px 120px; animation: spin 40s linear infinite; }
   .av-arm { transform-origin: 176px 196px; animation: wave 2.6s ease-in-out infinite; }
   .av-eyes { transform-origin: 120px 106px; animation: blink-eyes 5s infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes wave {
     0%, 60%, 100% { transform: rotate(0deg); }
     10%, 30% { transform: rotate(-14deg); }

@@ -54,9 +54,8 @@ To use a custom domain later, set `site` in `astro.config.mjs` to the domain and
 
 ## Features
 
-- Boot-screen intro (once per session, skippable, off for reduced-motion users)
 - Animated ECG hero, typewriter roles, "vitals" stat readouts
 - Waving illustrated avatar (placeholder until a real photo/bitmoji is added)
-- Bento "About" grid, expandable experience timeline, project cards that open into detail modals
-- `⌘K` / `Ctrl K` command palette, light/dark theme, cursor glow, scroll progress, scroll-reveal
+- Bento "About" grid, expandable experience timeline, project cards that expand inline
+- Clean light-only palette, scroll progress bar, scroll-reveal
 - Blog with tags, tag filtering, reading time, syntax highlighting, RSS, and sitemap

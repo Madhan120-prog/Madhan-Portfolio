@@ -29,12 +29,9 @@ const trace = `M0 60 ${[60, 260, 460, 660, 860].map(beat).join(' ')} H1000`;
 
     <div class="hero-art">
       <div class="monitor panel">
-        <div class="monitor-top mono">
-          <span>CH 00 · LIVE</span>
-          <span class="rec">● REC</span>
-        </div>
-        <Avatar size={260} class="hero-avatar" />
-        <div class="speech mono">Hey there! 👋</div>
+        <Avatar size={240} class="hero-avatar" />
+        <p class="greet">Hey there! 👋</p>
+        <p class="loc mono muted">📍 {profile.location}</p>
       </div>
     </div>
   </div>
@@ -98,8 +95,7 @@ const trace = `M0 60 ${[60, 260, 460, 660, 860].map(beat).join(' ')} H1000`;
   .hi { display: block; font-size: clamp(20px, 2.6vw, 26px); font-weight: 500; color: var(--muted); letter-spacing: 0; margin-bottom: 8px; }
   .name {
     display: block; font-size: clamp(40px, 6.6vw, 76px); font-weight: 700;
-    background: linear-gradient(100deg, var(--text) 30%, var(--green) 70%, var(--cyan));
-    -webkit-background-clip: text; background-clip: text; color: transparent;
+    color: var(--text);
   }
   .role { font-size: clamp(18px, 2.4vw, 24px); color: var(--green); margin: 18px 0 10px; min-height: 1.5em; }
   .caret { animation: blink 1s steps(1) infinite; margin-left: 2px; }
@@ -107,29 +103,21 @@ const trace = `M0 60 ${[60, 260, 460, 660, 860].map(beat).join(' ')} H1000`;
   .cta { display: flex; flex-wrap: wrap; gap: 12px; }
 
   .hero-art { display: grid; place-items: center; }
-  .monitor { position: relative; padding: 18px 22px 26px; width: min(360px, 100%); }
-  .monitor::after {
-    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-    background: repeating-linear-gradient(0deg, transparent 0 3px, color-mix(in srgb, var(--green) 4%, transparent) 3px 4px);
+  .monitor {
+    padding: 28px 28px 22px; width: min(340px, 100%); text-align: center;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--green) 6%, white), #fff);
   }
-  .monitor-top { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 12px; }
-  .rec { color: var(--pink); animation: blink 1.6s infinite; }
-  .monitor :global(.hero-avatar) { margin: 0 auto; width: 100%; max-width: 260px; }
-  .speech {
-    position: absolute; top: 46px; right: -14px; font-size: 13px;
-    background: var(--text); color: var(--bg); padding: 8px 12px; border-radius: 12px 12px 4px 12px;
-    animation: float 4s ease-in-out infinite;
-  }
-  @keyframes float { 50% { transform: translateY(-6px); } }
+  .monitor :global(.hero-avatar) { margin: 0 auto; width: 100%; max-width: 240px; }
+  .greet { margin: 16px 0 2px; font-weight: 600; font-size: 18px; }
+  .loc { margin: 0; font-size: 13px; }
 
   .ecg-wrap { margin: 40px 0 26px; height: 120px; }
   .ecg { width: 100%; height: 100%; display: block; }
   .ecg path { fill: none; stroke-linejoin: round; stroke-linecap: round; }
-  .ecg-base { stroke: var(--green); stroke-width: 1.5; opacity: .14; }
+  .ecg-base { stroke: var(--green); stroke-width: 1.5; opacity: .12; }
   .ecg-live {
-    stroke: var(--green); stroke-width: 2.5;
+    stroke: var(--green); stroke-width: 2;
     stroke-dasharray: 220 780; stroke-dashoffset: 1000;
-    filter: drop-shadow(0 0 6px var(--green));
     animation: sweep 4.2s linear infinite;
   }
   @keyframes sweep { to { stroke-dashoffset: 0; } }
@@ -138,7 +126,7 @@ const trace = `M0 60 ${[60, 260, 460, 660, 860].map(beat).join(' ')} H1000`;
     list-style: none; padding: 0; margin: 0;
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
   }
-  .vital { padding: 14px 16px 10px; position: relative; overflow: hidden; }
+  .vital { padding: 16px 18px 12px; }
   .v-label { font-size: 11px; color: var(--c); letter-spacing: .1em; }
   .v-value { display: block; font: 700 34px/1.1 var(--mono); color: var(--c); margin-top: 4px; }
   .v-value small { font-size: 13px; font-weight: 400; margin-left: 4px; color: var(--muted); }
@@ -149,7 +137,6 @@ const trace = `M0 60 ${[60, 260, 460, 660, 860].map(beat).join(' ')} H1000`;
     .hero-grid { grid-template-columns: 1fr; gap: 32px; }
     .hero-art { order: -1; }
     .monitor { width: min(300px, 100%); }
-    .speech { right: 0; }
     .vitals { grid-template-columns: repeat(2, 1fr); }
     .ecg-wrap { height: 80px; margin: 28px 0 18px; }
   }

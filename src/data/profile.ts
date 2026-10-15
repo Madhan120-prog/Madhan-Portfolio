@@ -205,7 +205,7 @@ export const projects: Project[] = [
   {
     slug: 'qrf',
     title: 'QRF: Veteran Peer Support',
-    kicker: 'Mobile · iOS deployed',
+    kicker: 'Mobile · Peer support',
     emoji: '🎖️',
     blurb:
       'A mobile app that alerts opted-in veterans nearby for peer support by push notification and SMS.',

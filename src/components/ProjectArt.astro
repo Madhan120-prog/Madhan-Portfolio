@@ -59,13 +59,13 @@ const { slug } = Astro.props;
 
   {slug === 'autocab' && (
     <g>
-      <rect x="60" y="40" width="200" height="130" rx="10" fill="var(--panel)" stroke="var(--c)" stroke-width="2" />
-      <path d="M60 62 H260" stroke="var(--c)" opacity=".5" />
-      {[76, 90, 104].map((x) => <circle cx={x} cy="51" r="4" fill="var(--c)" opacity=".6" />)}
-      {[86, 106, 126, 146].map((y, i) => <rect x="80" y={y} width={140 - i * 22} height="8" rx="4" fill="var(--c)" opacity=".25" />)}
-      <rect x="240" y="120" width="110" height="44" rx="22" fill="var(--panel)" stroke="var(--c)" stroke-width="2" />
-      <circle cx="264" cy="142" r="8" fill="#ff4d6d" class="art-blink" />
-      <text x="282" y="147" font-size="13" fill="var(--c)" font-family="var(--mono)">REC 00:42</text>
+      <rect x="40" y="40" width="190" height="120" rx="10" fill="var(--panel)" stroke="var(--c)" stroke-width="2" />
+      <path d="M40 62 H230" stroke="var(--c)" opacity=".5" />
+      {[56, 70, 84].map((x) => <circle cx={x} cy="51" r="4" fill="var(--c)" opacity=".6" />)}
+      {[82, 102, 122, 142].map((y, i) => <rect x="60" y={y} width={140 - i * 22} height="8" rx="4" fill="var(--c)" opacity=".25" />)}
+      <rect x="250" y="78" width="120" height="44" rx="22" fill="var(--panel)" stroke="var(--c)" stroke-width="2" />
+      <circle cx="274" cy="100" r="8" fill="#ef4444" class="art-blink" />
+      <text x="292" y="105" font-size="13" fill="var(--c)" font-family="var(--mono)">REC 00:42</text>
     </g>
   )}
 
